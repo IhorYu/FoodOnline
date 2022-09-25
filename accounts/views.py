@@ -1,11 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib import messages
 
 from accounts.forms import UserForm
 from .models import User
 
 
-def registerUser(request):
+def register_user(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
@@ -13,7 +14,8 @@ def registerUser(request):
             user.role = User.CUSTOMER
             user.set_password(form.cleaned_data['password'])
             user.save()
-            return redirect('registerUser')
+            messages.success(request, 'Your account has been registered')
+            return redirect('register_user')
         else:
             print(form.errors)
 
@@ -23,9 +25,3 @@ def registerUser(request):
         'form': form
     }
     return render(request, 'accounts/registerUser.html', context)
-
-
-field = 1
-feild =1
-
-
