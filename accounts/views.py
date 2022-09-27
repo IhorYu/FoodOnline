@@ -1,11 +1,13 @@
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.tokens import default_token_generator
 from django.shortcuts import render, redirect
+from django.utils.http import urlsafe_base64_decode
 
 from accounts.forms import UserForm
 from vendor.forms import VendorForm
 from .models import User, UserProfile
-from .utils import detect_user
+from .utils import detect_user, send_verification_email
 
 from django.core.exceptions import PermissionDenied
 
@@ -38,6 +40,9 @@ def register_user(request):
             user.role = User.CUSTOMER
             user.set_password(form.cleaned_data['password'])
             user.save()
+
+            # Send verification email
+            send_verification_email(request, user)
             messages.success(request, 'Your account has been registered')
             return redirect('register_user')
         else:
@@ -75,6 +80,9 @@ def register_vendor(request):
             user_profile = UserProfile.objects.get(user=user)
             vendor.user_profile = user_profile
             vendor.save()
+
+            # Send verification email
+            send_verification_email(request, user)
             messages.success(request, 'Your account has been registered successfully! Please wait for the approval.')
             return redirect('register_vendor')
 
@@ -91,6 +99,24 @@ def register_vendor(request):
         'vendor_form': vendor_form
     }
     return render(request, 'accounts/register_vendor.html', context=context)
+
+
+def activate(request, uidb64, token):
+    # Activate the user by setting the is_active status to True
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User._default_manager.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, 'Congratulation! Your account is activated.')
+        return redirect('my_account')
+    else:
+        messages.error(request, 'Invalid activation link')
+        return redirect('my_account')
 
 
 def login(request):
