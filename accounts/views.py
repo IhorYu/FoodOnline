@@ -6,6 +6,7 @@ from django.utils.http import urlsafe_base64_decode
 
 from accounts.forms import UserForm
 from vendor.forms import VendorForm
+from vendor.models import Vendor
 from .models import User, UserProfile
 from .utils import detect_user, send_verification_email
 
@@ -126,7 +127,7 @@ def activate(request, uidb64, token):
 def login(request):
     if request.user.is_authenticated:
         messages.warning(request, 'You are already logged in')
-        return redirect('dashboard')
+        return redirect('my_account')
     elif request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
