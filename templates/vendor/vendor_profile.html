@@ -35,9 +35,15 @@
                                                                     <li class="gal-img">
                                                                         <div class="drag-list">
                                                                             <div class="item-thumb">
-                                                                                <img class="thumbnail"
-                                                                                     src="{{ profile.profile_picture.url }} "
-                                                                                     alt="Logo">
+                                                                                {% if profile.profile_picture.url %}
+                                                                                    <img class="thumbnail"
+                                                                                         src="{{ profile.profile_picture.url }} "
+                                                                                         alt="Logo">
+                                                                                {% else %}
+                                                                                    <img class="thumbnail"
+                                                                                         src="{% static 'images/default-profile.PNG' %}"
+                                                                                         alt="Logo">
+                                                                                {% endif %}
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -59,9 +65,16 @@
                                                                     <li class="gal-img">
                                                                         <div class="drag-list">
                                                                             <div class="item-thumb">
-                                                                                <img class="thumbnail"
-                                                                                     src="{{ profile.cover_photo.url }}"
-                                                                                     alt="Logo">
+                                                                                {% if profile.cover_photo %}
+                                                                                    <img class="thumbnail"
+                                                                                         src="{{ profile.cover_photo.url }}"
+                                                                                         alt="Logo">
+                                                                                {% else %}
+                                                                                    <img class="thumbnail"
+                                                                                         src="{% static 'images/default-cover.PNG' %}"
+                                                                                         alt="Logo">
+
+                                                                                {% endif %}
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -73,7 +86,7 @@
                                                                     {{ profile_form.cover_photo }}
                                                                 </div>
                                                             </div>
-                                                              <label class="text-danger">{{ profile_form.cover_photo.errors }} </label>
+                                                            <label class="text-danger">{{ profile_form.cover_photo.errors }} </label>
 
                                                         </div>
                                                     </div>
@@ -113,7 +126,8 @@
                                                         <div class="field-holder">
                                                             <label>Address</label>
                                                             {{ profile_form.address }}
-                                                            <small class="text-muted float-right">powered by Google</small>
+                                                            <small class="text-muted float-right">powered by
+                                                                Google</small>
                                                         </div>
                                                     </div>
 
