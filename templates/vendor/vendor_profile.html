@@ -35,7 +35,7 @@
                                                                     <li class="gal-img">
                                                                         <div class="drag-list">
                                                                             <div class="item-thumb">
-                                                                                {% if profile.profile_picture.url %}
+                                                                                {% if profile.profile_picture %}
                                                                                     <img class="thumbnail"
                                                                                          src="{{ profile.profile_picture.url }} "
                                                                                          alt="Logo">
@@ -182,8 +182,7 @@
                                             <div class="field-holder">
                                                 <div class="payment-holder input-button-loader">
                                                     <input class="update-restaurant" type="submit"
-                                                           value="Update Restaurant"
-                                                           onclick="location.href='restaurant-location.html';">
+                                                           value="Update Restaurant">
                                                 </div>
                                             </div>
                                         </div>

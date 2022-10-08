@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 
@@ -111,12 +111,37 @@ def delete_cart(request, cart_id):
             try:
                 # Check if the cart item exists
                 cart_item = Cart.objects.get(user=request.user, id=cart_id)
-                print(cart_item)
                 if cart_item:
                     cart_item.delete()
                     return JsonResponse({'status': 'Success', 'message': 'Cart item has been deleted!',
-                                         'cart_counter': get_cart_counter(request), 'cart_amount': get_cart_amount(request)})
+                                         'cart_counter': get_cart_counter(request),
+                                         'cart_amount': get_cart_amount(request)})
             except:
                 return JsonResponse({'status': 'Failed', 'message': 'Cart Item does not exist!'})
         else:
             return JsonResponse({'status': 'Failed', 'message': 'Invalid request!'})
+
+
+def search(request):
+    address = request.GET['address']
+    latitude = request.GET['lat']
+    longitude = request.GET['lng']
+    radius = request.GET['radius']
+    keyword = request.GET['keyword']
+
+    # get vendor ids that has the food item the user is looking for
+    fetch_vendors_by_fooditems = FoodItem.objects.filter(food_title__icontains=keyword, is_available=True).values_list(
+        'vendor', flat=True)
+
+    vendors = Vendor.objects.filter(
+        Q(id__in=fetch_vendors_by_fooditems) | Q(vendor_name__icontains=keyword, is_approved=True,
+                                                 user__is_active=True))
+    print(vendors)
+
+    vendor_count = vendors.count()
+    context = {
+        'vendors': vendors,
+        'vendor_count': vendor_count,
+    }
+
+    return render(request, 'marketplace/listing.html', context)
