@@ -209,4 +209,15 @@ $(document).ready(function () {
             $('#total').html(grand_total)
         }
     }
+    $('.add_hour').on('click', function (e){
+        e.preventDefault();
+        var day = document.getElementById('id_day').value
+        var from_hour = document.getElementById('id_from_hour').value
+        var to_hour = document.getElementById('id_to_hour').value
+        var is_close = document.getElementById('id_is_close').checked
+        var csrf_token = $('input[name=csrfmiddlewaretoken]').val()
+
+    })
+
+//    document ready close
 });

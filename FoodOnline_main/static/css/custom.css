@@ -1,8 +1,16 @@
 @keyframes show-toast {
-    0%{bottom: -100%}
-    20%{bottom: 100px}
-    80%{bottom: 100px}
-    100%{bottom: -100%}
+    0% {
+        bottom: -100%
+    }
+    20% {
+        bottom: 100px
+    }
+    80% {
+        bottom: 100px
+    }
+    100% {
+        bottom: -100%
+    }
 }
 
 .show-notification {
@@ -14,12 +22,16 @@
     z-index: 99;
 }
 
-.btn{
+.btn {
     padding: 2px 1.75em;
     font-size: 12px;
     cursor: pointer;
 }
 
-main-search.fancy .field-holder input[type=text]{
+main-search.fancy .field-holder input[type=text] {
     color: #000000 !important;
+}
+
+table > tbody > tr > td {
+    border: none !important;
 }
