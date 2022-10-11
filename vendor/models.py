@@ -43,13 +43,13 @@ class Vendor(models.Model):
 
 
 DAYS = [
-    ('1', ('Monday')),
-    ('2', ('Tuesday')),
-    ('3', ('Wednesday')),
-    ('4', ('Thursday')),
-    ('5', ('Friday')),
-    ('6', ('Saturday')),
-    ('7', ('Sunday'))
+    (1, ("Monday")),
+    (2, ("Tuesday")),
+    (3, ("Wednesday")),
+    (4, ("Thursday")),
+    (5, ("Friday")),
+    (6, ("Saturday")),
+    (7, ("Sunday")),
 ]
 
 HOUR_OF_DAY_24 = [(time(h, m).strftime('%I:%M %p'), time(h, m).strftime('%I:%M %p')) for h in range(0, 24) for m in
@@ -64,8 +64,8 @@ class OpeningHour(models.Model):
     is_closed = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ('day', 'from_hour',)
-        unique_together = ('day', 'from_hour', 'to_hour')
+        ordering = ('day', '-from_hour')
+        unique_together = ('vendor', 'day', 'from_hour', 'to_hour')
 
     def __str__(self):
         return self.get_day_display()
