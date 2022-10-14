@@ -16,4 +16,7 @@ urlpatterns = [
                   # SEARCH
                   path('search/', MarketPlaceViews.search, name='search'),
 
+                  # CHECKOUT
+                  path('checkout/', MarketPlaceViews.checkout, name='checkout')
+
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
