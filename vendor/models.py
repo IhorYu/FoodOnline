@@ -49,7 +49,8 @@ class Vendor(models.Model):
                 email_template = 'accounts/emails/admin_approval_email.html'
                 context = {
                     'user': self.user,
-                    'is_approved': self.is_approved
+                    'is_approved': self.is_approved,
+                    'to_email': self.to_email,
                 }
                 if self.is_approved:
                     # Send notification
