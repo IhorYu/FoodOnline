@@ -143,7 +143,7 @@ def order_complete(request):
 
         tax_data = json.loads(order.tax_data)
         context = {
-            'orders': order,
+            'order': order,
             'ordered_food': ordered_food,
             'subtotal': subtotal,
             'tax_data': tax_data,
