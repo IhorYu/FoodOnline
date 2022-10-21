@@ -69,10 +69,10 @@ def place_order(request):
             order.user = request.user
             order.total = grand_total
             order.tax_data = json.dumps(tax_data)
-            order.total_data = json.dumps['total_data']
+            order.total_data = json.dumps(total_data)
             order.total_tax = total_tax
             order.payment_method = request.POST['payment_method']
-            order.save()  # order id generated
+            order.save()  # order id is generated
             order.order_number = generate_order_number(order.id)
             order.vendors.add(*vendors_ids)
             order.save()
